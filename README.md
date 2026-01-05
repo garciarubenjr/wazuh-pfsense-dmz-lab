@@ -58,6 +58,9 @@ See `docs/screenshots/` for:
 - pfSense -> Wazuh syslog: PASS (tcpdump proof)
 
 ## Notes / Next Improvements
-- Add custom parsing/decoding for pfSense firewall logs in Wazuh (pf decoder tuning)
-- Optionally add a monitored Linux server in DMZ with Wazuh agent (more realistic than Metasploitable)
-- Add detection rules for scan activity (nmap, brute force, web attacks)
+Future improvements include:
+- Installing Wazuh agent on Metasploitable or a hardened Linux target
+- Adding Suricata IDS on pfSense
+- Creating custom Wazuh rules for firewall alerts
+- Mapping alerts to MITRE ATT&CK techniques
+
