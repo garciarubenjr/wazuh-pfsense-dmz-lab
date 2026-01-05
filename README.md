@@ -23,6 +23,16 @@ Build a small SOC-style lab that:
 
   <img width="466" height="467" alt="{495B228B-481A-4CAC-AD42-A254594C131C}" src="https://github.com/user-attachments/assets/f640e42f-1fda-4348-9dda-84ee4155a0e2" />
 
+### Network Architecture
+The lab uses pfSense as a perimeter firewall with three interfaces:
+- WAN: Internet access via VMware NAT
+- LAN: Internal management network hosting Wazuh and monitored endpoints
+- DMZ: Isolated segment hosting vulnerable services (Metasploitable)
+
+Firewall rules enforce strict segmentation while allowing:
+- Syslog forwarding from pfSense to Wazuh
+- Agent communications from LAN hosts
+- Controlled, logged DMZ activity for detection testing
 
 ## What Works (Validated)
 - pfSense routing between LAN and DMZ
