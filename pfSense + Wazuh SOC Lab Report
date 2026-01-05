@@ -1,0 +1,137 @@
+🛡️ pfSense + Wazuh SOC Lab Report
+
+Project: Segmented Network Monitoring & Detection Lab
+Author: Ruben Garcia
+Date: 2025
+Tools: pfSense, Wazuh SIEM, Metasploitable2, Kali Linux, tcpdump, Nmap
+
+1️⃣ Executive Summary
+
+This project demonstrates the design and implementation of a segmented security monitoring lab using pfSense and Wazuh SIEM to simulate a real-world SOC environment. The lab isolates a vulnerable system within a DMZ, enforces firewall-based segmentation between internal and external networks, and centralizes log collection for detection and investigation.
+
+The objective was to validate network visibility, logging, and detection workflows rather than full endpoint coverage. Both agent-based and agentless telemetry were tested to reflect realistic enterprise monitoring constraints.
+
+2️⃣ Architecture Overview
+
+The lab consists of three logical security zones:
+
+WAN: Simulated internet connectivity via NAT/bridged networking
+
+LAN: Internal network hosting Wazuh Manager and a monitored Linux endpoint
+
+DMZ: Isolated network containing a vulnerable Metasploitable2 server
+
+All inter-network traffic is routed through pfSense, which serves as the enforcement point for segmentation, firewall rules, and logging.
+
+Key Design Decisions
+
+Metasploitable2 was intentionally deployed without an agent to simulate unmanaged or legacy systems
+
+pfSense was configured to generate logs for DMZ traffic and forward them to Wazuh
+
+Wazuh agents were deployed only on trusted internal systems
+
+This reflects common real-world environments where not all assets can run endpoint agents.
+
+3️⃣ Tools and Technologies Used
+Tool	Purpose
+pfSense	Firewall, routing, syslog generation
+Wazuh	SIEM, log analysis, endpoint monitoring
+Metasploitable2	Vulnerable DMZ host
+Kali Linux	Controlled attack testing
+Nmap	Network reconnaissance
+tcpdump	Network-level log validation
+4️⃣ Security Controls Implemented
+Network Segmentation
+
+WAN, LAN, and DMZ isolated via separate pfSense interfaces
+
+Default deny posture between segments
+
+Explicit allow rules created only where required
+
+Logging & Monitoring
+
+pfSense firewall logging enabled for LAN and DMZ interfaces
+
+Syslog forwarding configured to Wazuh Manager
+
+Wazuh agent deployed on internal Linux host (Agent ID 003)
+
+Dashboard monitoring used for event validation
+
+5️⃣ Testing Methodology
+Test Activities Performed
+
+Verified WAN connectivity and DNS resolution
+
+Validated firewall rule enforcement using controlled traffic
+
+Generated DMZ activity using Nmap scans
+
+Confirmed syslog flow using tcpdump on Wazuh Manager
+
+Observed agent-based events from internal Linux endpoint
+
+Validation Techniques
+
+Firewall logs reviewed directly on pfSense
+
+Network traffic verified using tcpdump
+
+Wazuh dashboards used to confirm event ingestion
+
+Agent status confirmed via Wazuh Manager
+
+6️⃣ Results & Findings
+Successful Outcomes
+
+pfSense successfully routed traffic between WAN, LAN, and DMZ
+
+Firewall rules correctly enforced segmentation
+
+Wazuh agent communication confirmed
+
+Syslog traffic verified at the network level
+
+Dashboard access restored and operational
+
+Observed Limitations
+
+Metasploitable2 lacked native agent support
+
+Firewall logs did not immediately surface in Threat Hunting views
+
+Required additional tuning for log parsing and rule mapping
+
+These limitations reflect realistic SOC challenges and emphasize the need for ongoing tuning.
+
+7️⃣ Lessons Learned
+
+Network-level visibility is critical when endpoint agents are unavailable
+
+Firewall logging must be explicitly enabled and validated
+
+Troubleshooting SIEM ingestion often requires packet-level inspection
+
+Incremental configuration prevents cascading failures
+
+Documentation is essential for reproducibility and incident response
+
+8️⃣ Future Enhancements
+
+Planned improvements include:
+
+Deploying a Wazuh agent on a hardened Linux DMZ host
+
+Enabling Suricata IDS on pfSense
+
+Creating custom Wazuh detection rules for firewall events
+
+Mapping detections to MITRE ATT&CK
+
+Automating alert triage and enrichment workflows
+
+9️⃣ Conclusion
+
+This lab demonstrates a functional SOC-style monitoring environment using industry-standard tools. The project emphasizes realistic constraints, defensive visibility, and operational troubleshooting, closely aligning with entry- to mid-level SOC and Blue Team responsibilities.
